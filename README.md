@@ -25,7 +25,7 @@ StringTie2 and most other existing algorithms infer transcripts locus by locus. 
 
 ## Scripts for mapping statistics
 
-### `compare_transcripts_csv.py`
+### `calculate_stats.py`
 
 ## Scripts for bundle analysis
 
