@@ -1,4 +1,4 @@
-# Gene Annotation Analysis Scripts – Ape Genome Study
+# Mappability and transcript assembly of long RNA-seq – Ape Genome Study
 
 This repository contains scripts used in the **gene annotation section** of:
 
