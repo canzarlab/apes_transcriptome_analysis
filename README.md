@@ -9,7 +9,7 @@ This repository contains scripts used in the **gene annotation section** of:
 
 ## Study Summary
 
-We present haplotype-resolved reference genomes and comparative analyses of six ape species: chimpanzee, bonobo, gorilla, Bornean orangutan, Sumatran orangutan, and siamang. With chromosome-level contiguity and near-perfect base accuracy, we fully sequence 215 gapless chromosomes and resolve highly repetitive immune and centromeric regions. This enables unbiased annotation and evolutionary analysis of gene families, segmental duplications, and other complex loci.
+We present haplotype-resolved reference genomes and comparative analyses of six ape species: chimpanzee, bonobo, gorilla, Bornean orangutan, Sumatran orangutan, and siamang. With chromosome-level contiguity, we fully sequence 215 gapless chromosomes and resolve highly repetitive immune and centromeric regions. This enables unbiased annotation and evolutionary analysis of gene families, segmental duplications, and other complex loci.
 
 ### This repository focuses on the **impact of T2T assemblies on mappability and transcript assembly**, leveraging long-read IsoSeq data.
 
