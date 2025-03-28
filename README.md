@@ -13,9 +13,15 @@ We present haplotype-resolved reference genomes and comparative analyses of six 
 
 ### This repository focuses on the **impact of T2T assemblies on mappability and transcript assembly**, leveraging long-read IsoSeq data.
 
+### Mapping statistics
+
 We used PacBio Iso-Seq long reads from testis RNA samples of four great apes (chimpanzee, Sumatran orangutan, gorilla, and bonobo) to quantify the potential impact of T2T genome assemblies on read mapping and observed improvements in mappability, soft-clipping, and error rates. Iso-Seq reads were mapped with minimap2 to both T2T assemblies and previous assemblies. 
 
-## Scripts
+### StringTie bundles analysis
+
+## Scripts for mapping statistics
+
+## Scripts for bundle analysis
 
 ### `compare_transcripts_csv.py`
 
