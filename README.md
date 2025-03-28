@@ -27,6 +27,68 @@ StringTie2 and most other existing algorithms infer transcripts locus by locus. 
 
 ### `calculate_stats.py`
 
+Usage
+
+The script requires four positional arguments:
+
+    old_bam_file: Path to the first (old) BAM file.
+
+    new_bam_file: Path to the second (new) BAM file.
+
+    equivalence_file: CSV file containing chromosome equivalence mappings. Each line must include at least three comma-separated values (old name, new name, common name).
+
+    output_file: Path where the output CSV file will be written.
+
+Command-Line Example
+```{python}
+python script.py old.bam new.bam chromosome_equivalences.csv output.csv
+```
+
+Input File Formats
+Chromosome Equivalence File
+
+    Format: CSV
+
+    Columns: The file must contain at least three columns per line:
+
+        Column 1: Old chromosome name.
+
+        Column 2: New chromosome name.
+
+        Column 3: Common name to map both names.
+
+    Note: Lines with fewer than three fields will be skipped.
+
+BAM Files
+
+    Standard BAM files used for alignment data.
+
+    Ensure that the BAM files are valid and indexed if necessary.
+
+Output
+
+The script creates an output CSV file with the following columns:
+
+    Chromosome: The common chromosome name.
+
+    Old Soft Clipped: Count of significant soft-clipped reads in the old BAM file.
+
+    New Soft Clipped: Count of significant soft-clipped reads in the new BAM file.
+
+    Old Mismatch Rate: Mismatch rate for the old BAM file (mismatches / total bases).
+
+    New Mismatch Rate: Mismatch rate for the new BAM file.
+
+    Old Multimap Rate: Proportion of secondary/supplementary reads in the old BAM file.
+
+    New Multimap Rate: Proportion of secondary/supplementary reads in the new BAM file.
+
+    Unmapped_old: Number of reads that transitioned from unmapped in the old file to mapped in the new file.
+
+    Unmapped_new: Number of reads that transitioned from unmapped in the new file to mapped in the old file.
+
+
+
 ## Scripts for bundle analysis
 
 ### `compare_transcripts_csv.py`
@@ -93,91 +155,6 @@ options:
                         Output CSV file path.
 ```
                         
-# Directory structure
-
-.
-├── chromosomal_equivalences
-├── non_T2T
-│   ├── data
-│   │   ├── alignments
-│   │   │   ├── long_reads
-│   │   │   └── short_reads
-│   │   └── reference_and_annotation
-│   │       ├── GGO_GCF_008122165.1
-│   │       │   └── hisat_indexes
-│   │       ├── PAB_GCF_002880775.1
-│   │       │   └── hisat_indexes
-│   │       ├── PPA_GCF_000258655.2
-│   │       │   └── hisat_indexes
-│   │       └── PTR_GCF_002880755.1
-│   │           └── hisat_indexes
-│   └── results
-│       └── assemblies
-│           ├── GGO
-│           ├── GGO_15
-│           ├── PAB
-│           ├── PAB_15
-│           ├── PPA
-│           ├── PPA_15
-│           ├── PPY
-│           ├── PPY_15
-│           ├── PTR
-│           ├── PTR_15
-│           ├── PTR_15_04
-│           ├── PTR_15_05
-│           └── PTR_15_05_sp
-├── output_analysis
-├── raw
-│   ├── long_reads
-│   │   ├── GGO
-│   │   ├── PAB
-│   │   ├── PPA
-│   │   ├── PPY
-│   │   └── PTR
-│   └── short_reads
-│       ├── GGO
-│       ├── PAB
-│       ├── PPA
-│       ├── PPY
-│       └── PTR
-├── scripts
-│   ├── PTR
-│   ├── results
-│   └── scripts
-├── stats
-└── T2T_v2
-    ├── data
-    │   ├── alignments
-    │   │   ├── long_reads
-    │   │   └── short_reads
-    │   │       └── no_secondary
-    │   └── reference_and_annotation
-    │       ├── GGO_GCF_029281585.2
-    │       │   └── hisat_indexes
-    │       ├── PAB_GCF_028885655.2
-    │       │   └── hisat_indexes
-    │       ├── PPA_GCF_029289425.2
-    │       │   └── hisat_indexes
-    │       ├── PPY_GCF_028885625.2
-    │       │   └── hisat_indexes
-    │       └── PTR_GCF_028858775.2
-    │           └── hisat_indexes
-    └── results
-        └── assemblies
-            ├── GGO
-            ├── GGO_15
-            ├── PAB
-            ├── PAB_15
-            ├── PPA
-            ├── PPA_15
-            ├── PPY
-            ├── PPY_15
-            ├── PTR
-            ├── PTR_15
-            ├── PTR_15_04
-            ├── PTR_15_05
-            └── PTR_15_05_sp
-
 
 
 ## Files
