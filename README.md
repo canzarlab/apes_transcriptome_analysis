@@ -1,3 +1,86 @@
+# Gene Annotation Analysis Scripts – Ape Genome Study
+
+This repository contains scripts used in the **gene annotation section** of:
+
+> **Complete sequencing of ape genomes**  
+> bioRxiv [Preprint]. 2024 Oct 5:2024.07.31.605654  
+> Originally published 2024 Jul 31. [Version 2]  
+> [doi:10.1101/2024.07.31.605654](https://doi.org/10.1101/2024.07.31.605654)
+
+## Study Summary
+
+We present haplotype-resolved reference genomes and comparative analyses of six ape species: chimpanzee, bonobo, gorilla, Bornean orangutan, Sumatran orangutan, and siamang. With chromosome-level contiguity and near-perfect base accuracy, we fully sequence 215 gapless chromosomes and resolve highly repetitive immune and centromeric regions. This enables unbiased annotation and evolutionary analysis of gene families, segmental duplications, and other complex loci.
+
+### This repository focuses on the **impact of T2T assemblies on mappability and transcript assembly**, leveraging long-read IsoSeq data.
+
+We used PacBio Iso-Seq long reads from testis RNA samples of four great apes (chimpanzee, Sumatran orangutan, gorilla, and bonobo) to quantify the potential impact of T2T genome assemblies on read mapping and observed improvements in mappability, soft-clipping, and error rates. Iso-Seq reads were mapped with minimap2 to both T2T assemblies and previous assemblies. 
+
+## Scripts
+
+### `compare_transcripts_csv.py`
+
+**Purpose**: Compare read bundles between old and new datasets based on StringTie logs and output to CSV.
+
+**Inputs**:
+
+**Output**:
+
+**Usage**:
+
+```
+compare_transcripts_index_csv.py [-h] --log_old LOG_OLD --log_new LOG_NEW --bam_old
+                                        BAM_OLD --bam_new BAM_NEW --output_csv OUTPUT_CSV
+                                        
+options:
+  -h, --help            show this help message and exit
+  --log_old LOG_OLD     Path to old StringTie log file
+  --log_new LOG_NEW     Path to new StringTie log file
+  --bam_old BAM_OLD     Path to old BAM file
+  --bam_new BAM_NEW     Path to new BAM file
+  --output_csv OUTPUT_CSV
+                        Output path for the CSV file
+```
+
+### `bundlecompare.py`
+
+**Purpose**: Compare read bundles within the same assembly based on StringTie logs.
+
+**Inputs**:
+
+**Output**:
+
+**Usage**:
+```
+self_compare_csv.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
+
+options:
+  -h, --help            show this help message and exit
+  --log_new LOG_NEW     Path to new StringTie log file
+  --bam_new BAM_NEW     Path to new BAM file
+  --output_csv OUTPUT_CSV
+                        Output path for the CSV file
+```
+
+### `totalbundles.py`
+
+**Purpose**: Count reads per bundle from a StringTie log and a BAM file.
+
+**Inputs**:
+
+**Output**:
+
+**Usage**:
+```
+bundletotal.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
+
+options:
+  -h, --help            show this help message and exit
+  --log_new LOG_NEW     Path to StringTie log file.
+  --bam_new BAM_NEW     Path to BAM file.
+  --output_csv OUTPUT_CSV
+                        Output CSV file path.
+```
+                        
 # Directory structure
 
 .
