@@ -116,7 +116,7 @@ Compares two BAM files (old and new) using a chromosome equivalence file. It com
 ```{python}
 python calculate_stats.py <old_bam_file> <new_bam_file> <equivalence_file> <output_file>
 ```
-## 2. compare_diff_bundles.py
+## 2. `compare_diff_bundles.py`
 
 
 Purpose:
@@ -145,7 +145,7 @@ Output:
 ```{python}
 python compare_diff_bundles.py --log_old <LOG_OLD> --log_new <LOG_NEW> --bam_old <BAM_OLD> --bam_new <BAM_NEW> --output_csv <OUTPUT_CSV>
 ```
-## 3. compare_self_bundles.py
+## 3. `compare_self_bundles.py`
 
 Purpose:
 Compares read bundles within the same assembly (using a new StringTie log and corresponding BAM file) to identify similar bundles. The script calculates the Jaccard similarity between each pair of bundles and outputs comparisons that meet a minimum similarity threshold.
@@ -170,7 +170,7 @@ Usage:
 python compare_self_bundles.py--log_new <LOG_NEW> --bam_new <BAM_NEW> --output_csv <OUTPUT_CSV>
 ```
 
-4. count_total_bundles.py
+## 4. `count_total_bundles.py`
 
 Purpose:
 Counts the number of reads per bundle from a StringTie log and a corresponding BAM file. This script aggregates read counts for each bundle defined in the log file.
