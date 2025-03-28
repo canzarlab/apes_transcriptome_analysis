@@ -91,153 +91,107 @@ The script creates an output CSV file with the following columns:
 
 ## Scripts for bundle analysis
 
-### `compare_transcripts_csv.py`
+# Bundle Analysis Scripts
 
-**Purpose**: Compare read bundles between old and new datasets based on StringTie logs and output to CSV.
+This repository includes several scripts to analyze and compare read bundles from StringTie logs and BAM files. Note that some file names in the code (e.g., `compare_diff_bundles.py` and `compare_self_bundles.py`) have been renamed here for clarity to match their purpose. The following sections describe each script, its inputs/outputs, and usage.
 
-**Inputs**:
+---
 
-**Output**:
+## 1. `calculate_stats.py`
 
-**Usage**:
+**Purpose:**  
+Compares two BAM files (old and new) using a chromosome equivalence file. It computes per-chromosome metrics (soft clipping, mismatch rate, and multimap rate) and tracks transitions in read mapping between the datasets.
 
+**Inputs:**  
+- **old_bam_file:** Path to the BAM file for the old dataset.  
+- **new_bam_file:** Path to the BAM file for the new dataset.  
+- **equivalence_file:** CSV file containing chromosome equivalences (each line must have at least three comma-separated values: old name, new name, common name).  
+
+**Output:**  
+- A CSV file containing columns:  
+  `Chromosome, Old Soft Clipped, New Soft Clipped, Old Mismatch Rate, New Mismatch Rate, Old Multimap Rate, New Multimap Rate, Unmapped_old, Unmapped_new`
+
+**Usage:**  
+```{python}
+python calculate_stats.py <old_bam_file> <new_bam_file> <equivalence_file> <output_file>
 ```
-compare_transcripts_index_csv.py [-h] --log_old LOG_OLD --log_new LOG_NEW --bam_old
-                                        BAM_OLD --bam_new BAM_NEW --output_csv OUTPUT_CSV
-                                        
-options:
-  -h, --help            show this help message and exit
-  --log_old LOG_OLD     Path to old StringTie log file
-  --log_new LOG_NEW     Path to new StringTie log file
-  --bam_old BAM_OLD     Path to old BAM file
-  --bam_new BAM_NEW     Path to new BAM file
-  --output_csv OUTPUT_CSV
-                        Output path for the CSV file
+## 2. compare_transcripts_index_csv.py
+
+(Actual file name: compare_diff_bundles.py)
+
+Purpose:
+Compares read bundles between old and new datasets based on StringTie logs. It uses set-based comparisons (with Jaccard similarity) to identify similar bundles between the datasets and outputs the results to a CSV file.
+
+Inputs:
+
+    --log_old LOG_OLD: Path to the old StringTie log file.
+
+    --log_new LOG_NEW: Path to the new StringTie log file.
+
+    --bam_old BAM_OLD: Path to the old BAM file.
+
+    --bam_new BAM_NEW: Path to the new BAM file.
+
+    --output_csv OUTPUT_CSV: Path for the output CSV file.
+
+Output:
+
+    A CSV file with columns:
+    Bundle1, Bundle2, Size1, Size2, Jaccard
+    Each line represents a comparison between a bundle from the new log and a matching bundle from the old log where the Jaccard similarity meets or exceeds the threshold.
+
+Usage:
+
+python compare_transcripts_index_csv.py --log_old <LOG_OLD> --log_new <LOG_NEW> --bam_old <BAM_OLD> --bam_new <BAM_NEW> --output_csv <OUTPUT_CSV>
+
+## 3. self_compare_csv.py
+
+(Actual file name: compare_self_bundles.py)
+
+Purpose:
+Compares read bundles within the same assembly (using a new StringTie log and corresponding BAM file) to identify similar bundles. The script calculates the Jaccard similarity between each pair of bundles and outputs comparisons that meet a minimum similarity threshold.
+
+Inputs:
+
+    --log_new LOG_NEW: Path to the new StringTie log file.
+
+    --bam_new BAM_NEW: Path to the new BAM file.
+
+    --output_csv OUTPUT_CSV: Path for the output CSV file.
+
+Output:
+
+    A CSV file with columns:
+    Bundle, Matched Bundle, Size of Original Bundle, Size of Matched Bundle, Overlapping Reads, Jaccard
+    Each row represents a pairwise comparison between bundles that exceeds the Jaccard threshold.
+
+Usage:
+
+```{python}
+python self_compare_csv.py --log_new <LOG_NEW> --bam_new <BAM_NEW> --output_csv <OUTPUT_CSV>
 ```
 
-### `bundlecompare.py`
+4. bundletotal.py
 
-**Purpose**: Compare read bundles within the same assembly based on StringTie logs.
+(Also referenced as totalbundles.py)
 
-**Inputs**:
+Purpose:
+Counts the number of reads per bundle from a StringTie log and a corresponding BAM file. This script aggregates read counts for each bundle defined in the log file.
 
-**Output**:
+Inputs:
 
-**Usage**:
+    --log_new LOG_NEW: Path to the StringTie log file.
+
+    --bam_new BAM_NEW: Path to the BAM file.
+
+    --output_csv OUTPUT_CSV: Path for the output CSV file.
+
+Output:
+
+    A CSV file summarizing the total read count for each bundle. (Columns may include a bundle identifier and the corresponding read count.)
+
+Usage:
+
+```{python}
+python bundletotal.py --log_new <LOG_NEW> --bam_new <BAM_NEW> --output_csv <OUTPUT_CSV>
 ```
-self_compare_csv.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
-
-options:
-  -h, --help            show this help message and exit
-  --log_new LOG_NEW     Path to new StringTie log file
-  --bam_new BAM_NEW     Path to new BAM file
-  --output_csv OUTPUT_CSV
-                        Output path for the CSV file
-```
-
-### `totalbundles.py`
-
-**Purpose**: Count reads per bundle from a StringTie log and a BAM file.
-
-**Inputs**:
-
-**Output**:
-
-**Usage**:
-```
-bundletotal.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
-
-options:
-  -h, --help            show this help message and exit
-  --log_new LOG_NEW     Path to StringTie log file.
-  --bam_new BAM_NEW     Path to BAM file.
-  --output_csv OUTPUT_CSV
-                        Output CSV file path.
-```
-                        
-
-
-## Files
-
-The files are respectively in the folders: 
-
-- Data/alignments
-- 
-
-
-
-
-# Stats
-
-
-
-
-    python master.py ~/group/apes_transcriptome_analysis/non_T2T/data/alignments/long_reads/GGO.bam ~/group/apes_transcriptome_analysis/T2T_v2/data/alignments/long_reads/GGO.bam ~/group/apes_transcriptome_analysis/non_T2T/data/chromosomal_equivalences/GGO_equiv.csv GGO_stats1.csv 
-
-
-## Per chromomsome stats
-
-You can open a file from **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Open from**. Once opened in the workspace, any modification in the file will be automatically synced.
-
-
-
-# Stringtie assemblies
-
-
-    stringtie ../../../data/alignments/long_reads/PPY.bam -v -o PPY_long.gtf > PPY_long.log 2>&1
-
-
-
-# Bundles
-
-### compare_transcripts_csv.py
-
-
-     python compare_transcripts_index_csv.py --help
-usage: compare_transcripts_index_csv.py [-h] --log_old LOG_OLD --log_new LOG_NEW --bam_old
-                                        BAM_OLD --bam_new BAM_NEW --output_csv OUTPUT_CSV
-
-Compare read bundles between old and new datasets based on StringTie logs and output to CSV.
-
-options:
-  -h, --help            show this help message and exit
-  --log_old LOG_OLD     Path to old StringTie log file
-  --log_new LOG_NEW     Path to new StringTie log file
-  --bam_old BAM_OLD     Path to old BAM file
-  --bam_new BAM_NEW     Path to new BAM file
-  --output_csv OUTPUT_CSV
-                        Output path for the CSV file
-
-
-### bundlecompare.py
-
-
-    python self_compare_csv.py --help
-usage: self_compare_csv.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
-
-Compare read bundles within the same assembly based on StringTie logs.
-
-options:
-  -h, --help            show this help message and exit
-  --log_new LOG_NEW     Path to new StringTie log file
-  --bam_new BAM_NEW     Path to new BAM file
-  --output_csv OUTPUT_CSV
-                        Output path for the CSV file
-
-
-### totalbundles.py
-
-    python bundletotal.py --help
-usage: bundletotal.py [-h] --log_new LOG_NEW --bam_new BAM_NEW --output_csv OUTPUT_CSV
-
-Count reads per bundle from a StringTie log and a BAM file.
-options:
-  -h, --help            show this help message and exit
-  --log_new LOG_NEW     Path to StringTie log file.
-  --bam_new BAM_NEW     Path to BAM file.
-  --output_csv OUTPUT_CSV
-                        Output CSV file path.
-
-
-
-
