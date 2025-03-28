@@ -41,36 +41,25 @@ if ("Chromosome" %in% colnames(data)) {
   stop("Input data does not contain a 'Chromosome' column.")
 }
 
-# Create bar plots for every two columns except the first one
-for (i in seq(2, ncol(data), by = 2)) {
+# Identify the columns related to the comparison of reads that were unmapped before and are mapped now
+unmapped_columns <- grep("Unmapped", names(data))
+
+# Plot only the data related to non-T2T for the unmapped columns
+for (col_index in unmapped_columns) {
   # Extract relevant columns for each plot
-  plot_data <- data[, c(1, i, i + 1)]
+  plot_data <- data[, c(1, col_index)]
 
   # Reshape data for plotting
   plot_data_long <- melt(plot_data, id.vars = "Chromosome")
 
-  # Set factor levels for the 'variable' variable
-  plot_data_long$variable <- factor(plot_data_long$variable, levels = unique(plot_data_long$variable))
-
   # Rename columns based on column names
-  col_names <- names(data)[i]
-  if (grepl("Mismatch", col_names)) {
-    plot_title <- paste(prefix, ": Mismatch rate comparison")
-    y_axis_title <- "mismatch"
-  } else if (grepl("Soft", col_names)) {
-    plot_title <- paste(prefix, ": Soft clipping comparison")
-    y_axis_title <- "n"
-  } else if (grepl("Unmapped", col_names)) {
-    plot_title <- paste(prefix, ": Unmapped reads mapped in other assembly")
-    y_axis_title <- "counts"
-  } else {
-    plot_title <- paste(prefix, ": Multi-mapping rates comparison")
-    y_axis_title <- "multimap"
-  }
+  col_names <- names(data)[col_index]
+  plot_title <- paste(prefix, ": Unmapped reads mapped in other assembly")
+  y_axis_title <- "counts"
 
   # Create bar plot
-  plot <- ggplot(plot_data_long, aes(x = Chromosome, y = value, fill = variable)) +
-    geom_bar(stat = "identity", position = position_dodge2(width = 0.8), color = "black") + # Add black outlines
+  plot <- ggplot(plot_data_long, aes(x = Chromosome, y = value)) +
+    geom_bar(stat = "identity", position = position_dodge2(width = 0.8), color = "black", fill = "#00AFBB") + # Add black outlines
     labs(title = plot_title,
          x = "Chromosome",
          y =  y_axis_title) +
@@ -85,7 +74,7 @@ for (i in seq(2, ncol(data), by = 2)) {
     guides(fill = guide_legend(title = "Assembly Type"))
 
   # Save the plot with specified prefix and .png extension, adjusting width and height
-  ggsave(paste0(prefix, "_", names(data)[i], "_", names(data)[i + 1], ".png"),
+  ggsave(paste0(prefix, "_", names(data)[col_index], ".png"),
          plot,
          bg = "white",
          width = 10, # Adjust width of the saved PNG file
