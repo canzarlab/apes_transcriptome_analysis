@@ -17,7 +17,7 @@ We present haplotype-resolved reference genomes and comparative analyses of six 
 
 We used PacBio Iso-Seq long reads from testis RNA samples of four great apes (chimpanzee, Sumatran orangutan, gorilla, and bonobo) to quantify the potential impact of T2T genome assemblies on read mapping and observed improvements in mappability, soft-clipping, and error rates. Iso-Seq reads were mapped with minimap2 v2.24-r112227 with parameters recommended for PacBio Iso-Seq cDNA (-ax splice:hq -uf) allowing up to 15 alignments per read (-N 15) to both T2T assemblies and previous assemblies. 
 Mismatch and indel rates were computed based on primary alignments only using Perbase v0.9.0 (Stadick 2023 https://github.com/sstadick/perbase).
-Transcripts were assembled from aligned reads using StringTie2 v2.2.128 with default parameters. We did not provide a reference annotation file to be able to attribute differences in transcript assembly to the quality of the reference sequence alone. To compare transcripts assembled from reads mapped to the T2T reference and from those mapped to previous assemblies, we lifted gene models inferred by StringTie2 for T2T genomes over to previous assemblies using Liftoff v1.6.325. Based on the new coordinates, we then compared transcripts assembled based on T2T and previous genome versions using Gffcompare v0.12.9
+Transcripts were assembled from aligned reads using StringTie2 v2.2.128 with default parameters. We did not provide a reference annotation file to be able to attribute differences in transcript assembly to the quality of the reference sequence alone. 
 
 ### StringTie bundles analysis
 
